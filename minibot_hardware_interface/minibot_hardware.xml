@@ -1,0 +1,9 @@
+<library path="minibot_hardware_interface">
+    <class name="minibot_hardware/MinibotSystemHardware"
+            type="minibot_hardware::MinibotSystemHardware"
+            base_class_type="hardware_interface::SystemInterface">
+        <description>
+            The hardware_interface for Minibot on ros2_control.
+        </description>
+    </class>
+</library>

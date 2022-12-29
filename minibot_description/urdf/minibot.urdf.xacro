@@ -1,0 +1,105 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:macro name="insert_robot" params="prefix">
+
+        <xacro:property name="wheel_diameter" value="0.068"/>
+        <xacro:property name="wheel_speration" value="0.1736"/>
+
+        <link name="${prefix}base_footprint"/>
+
+        <link name="${prefix}base_link">
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <mesh filename="file://$(find minibot_description)/meshes/visual/base_link.dae" scale="1 1 1"/>
+                </geometry>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <mesh filename="file://$(find minibot_description)/meshes/collision/base_link.stl" scale="1 1 1"/>
+                </geometry>
+            </collision>
+            <inertial>
+                <origin xyz="0 0 0.028" rpy="0 0 0"/>
+                <mass value="2.0"/>
+                <inertia ixx="0.000213" ixy="0" ixz="0" iyy="0.007034" iyz="0" izz="0.008104"/>
+            </inertial>
+        </link>
+
+        <joint name="${prefix}base_link_fixed_joint" type="fixed">
+            <parent link="${prefix}base_footprint"/>
+            <child link="${prefix}base_link"/>
+            <origin xyz="0 0 ${wheel_diameter/2}" rpy="0 0 0"/>
+        </joint>
+
+        <xacro:macro name="insert_wheel" params="parent prefix prefix_dir dir">
+            <link name="${prefix}${prefix_dir}_wheel">
+                <visual>
+                    <origin xyz="0 0 0" rpy="0 0 ${dir * pi/2}"/>
+                    <geometry>
+                        <mesh filename="file://$(find minibot_description)/meshes/visual/wheel.dae" scale="1 1 1"/>
+                    </geometry>
+                </visual>
+                <collision>
+                    <origin xyz="0 0 0" rpy="0 0 ${dir * pi/2}"/>
+                    <geometry>
+                        <mesh filename="file://$(find minibot_description)/meshes/collision/wheel.stl" scale="1 1 1"/>
+                    </geometry>
+                </collision>
+                <inertial>
+                    <origin xyz="0 0 0" rpy="0 0 0"/>
+                    <mass value="0.200"/>
+                    <!-- <inertia ixx="0.000067" ixy="0" ixz="0" iyy="0.000113" iyz="0" izz="0.000067"/> -->
+                    <!-- For stable on GAZEBO. Force Inertial value to LARGE value -->
+                    <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
+                </inertial>
+            </link>
+
+            <joint name="${prefix}${prefix_dir}_wheel_joint" type="continuous">
+                <parent link="${parent}"/>
+                <child link="${prefix}${prefix_dir}_wheel"/>
+                <axis xyz="0 1 0"/>
+                <origin xyz="0 ${dir * wheel_speration/2} 0" rpy="0 0 0"/>
+            </joint>
+        </xacro:macro>
+
+        <xacro:insert_wheel parent="${prefix}base_link" prefix="${prefix}" prefix_dir="l" dir="1" />
+        <xacro:insert_wheel parent="${prefix}base_link" prefix="${prefix}" prefix_dir="r" dir="-1" />
+
+        <link name="${prefix}front_camera_mount">
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <mesh filename="file://$(find minibot_description)/meshes/visual/front_camera.dae" scale="1 1 1"/>
+                </geometry>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <mesh filename="file://$(find minibot_description)/meshes/collision/front_camera.stl" scale="1 1 1"/>
+                </geometry>
+            </collision>
+            <inertial>
+                <origin xyz="0.005 0 0.013" rpy="0 0 0"/>
+                <mass value="0.050000"/>
+                <inertia ixx="0.000005" ixy="0" ixz="-0.000001" iyy="0.000004" iyz="0" izz="0.000003"/>
+            </inertial>
+        </link>
+
+        <joint name="${prefix}front_camera_mount_fixed_joint" type="fixed">
+            <parent link="${prefix}base_link"/>
+            <child link="${prefix}front_camera_mount"/>
+            <origin xyz="0.0864 0 0.0355" rpy="0 0 0"/>
+        </joint>
+
+        <link name="${prefix}camera_link"/>
+
+        <joint name="${prefix}camera_link_fixed_joint" type="fixed">
+            <parent link="${prefix}front_camera_mount"/>
+            <child link="${prefix}camera_link"/>
+            <origin xyz="0.0111 0 0.0193" rpy="0 ${pi/2} 0"/>
+        </joint>
+
+    </xacro:macro>
+</robot>
