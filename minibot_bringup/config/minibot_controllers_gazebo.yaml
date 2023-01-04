@@ -42,16 +42,17 @@ base_controller:
     linear.x.has_jerk_limits: false
     linear.x.max_velocity: 0.5
     linear.x.min_velocity: -0.5
-    linear.x.max_acceleration: 0.8
+    linear.x.max_acceleration: 1.0
+    linear.x.max_acceleration: 1.0
     # linear.x.max_jerk: 0.0
     # linear.x.min_jerk: 0.0
 
     angular.z.has_velocity_limits: true
     angular.z.has_acceleration_limits: true
     angular.z.has_jerk_limits: false
-    angular.z.max_velocity: 0.8
-    angular.z.min_velocity: -0.8
-    angular.z.max_acceleration: 1.2
-    angular.z.min_acceleration: -1.2
+    angular.z.max_velocity: 1.0
+    angular.z.min_velocity: -1.0
+    angular.z.max_acceleration: 1.5
+    angular.z.min_acceleration: -1.5
     # angular.z.max_jerk: 0.0
     # angular.z.min_jerk: 0.0

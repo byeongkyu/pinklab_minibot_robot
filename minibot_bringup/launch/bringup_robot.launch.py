@@ -1,15 +1,14 @@
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument
+from launch.actions import DeclareLaunchArgument, Shutdown
 from launch.actions import ExecuteProcess, IncludeLaunchDescription, RegisterEventHandler
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch_ros.actions import Node
+from launch.event_handlers import OnProcessExit, OnExecutionComplete ,OnProcessStart
 from launch_ros.substitutions import FindPackageShare
 from ament_index_python.packages import get_package_share_directory
 from launch.substitutions import PathJoinSubstitution, Command, LaunchConfiguration
 
 def generate_launch_description():
-    ld = LaunchDescription()
-
     prefix = DeclareLaunchArgument("prefix", default_value="")
     lidar_model = DeclareLaunchArgument("lidar_model", default_value="ydlidar_x2")
     port_name = DeclareLaunchArgument("port_name", default_value="/dev/ttyACM0")
@@ -47,6 +46,7 @@ def generate_launch_description():
             "stdout": "screen",
             "stderr": "screen",
         },
+        on_exit=Shutdown(),
     )
 
     upload_robot = IncludeLaunchDescription(
@@ -73,12 +73,23 @@ def generate_launch_description():
         output='screen'
     )
 
-    ld.add_action(prefix)
-    ld.add_action(lidar_model)
-    ld.add_action(port_name)
-    ld.add_action(baudrate)
-    ld.add_action(upload_robot)
-    ld.add_action(control_node)
-    ld.add_action(load_joint_state_broadcaster)
-    ld.add_action(load_base_controller)
-    return ld
+    return LaunchDescription([
+        RegisterEventHandler(
+            event_handler=OnProcessStart(
+                target_action=control_node,
+                on_start=[load_joint_state_broadcaster],
+            )
+        ),
+        RegisterEventHandler(
+            event_handler=OnProcessExit(
+                target_action=load_joint_state_broadcaster,
+                on_exit=[load_base_controller],
+            )
+        ),
+        prefix,
+        lidar_model,
+        port_name,
+        baudrate,
+        upload_robot,
+        control_node,
+    ])
