@@ -82,5 +82,38 @@
                 </plugin>
             </sensor>
         </gazebo>
+
+        <gazebo reference="${prefix}camera_link">
+            <sensor name="${prefix}camera" type="camera">
+                <update_rate>30.0</update_rate>
+                <camera name="${prefix}camera">
+                    <pose>0 0 0 0 -1.5707 0</pose>
+                    <horizontal_fov>1.08</horizontal_fov>
+                    <image>
+                        <width>1920</width>
+                        <height>1080</height>
+                        <format>R8G8B8</format>
+                    </image>
+                    <clip>
+                        <near>0.02</near>
+                        <far>300</far>
+                    </clip>
+                    <noise>
+                    <type>gaussian</type>
+                        <mean>0.0</mean>
+                        <stddev>0.01</stddev>
+                    </noise>
+                </camera>
+                <plugin name="${prefix}camera_controller" filename="libgazebo_ros_camera.so">
+                    <ros>
+                        <!-- <namespace>${prefix}camera</namespace> -->
+                        <!-- <remapping>camera1/image_raw:=camera/image_test</remapping>
+                        <remapping>camera_info:=camera_info_test</remapping> -->
+                    </ros>
+                    <frame_name>camera_link</frame_name>
+                    <hack_baseline>0.07</hack_baseline>
+                </plugin>
+            </sensor>
+        </gazebo>
     </xacro:macro>
 </robot>
