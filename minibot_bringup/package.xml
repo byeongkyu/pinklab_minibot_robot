@@ -11,6 +11,8 @@
 
   <depend>minibot_gazebo</depend>
   <depend>minibot_description</depend>
+  <depend>ros2_control</depend>
+  <depend>ros2_controllers</depend>
 
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>

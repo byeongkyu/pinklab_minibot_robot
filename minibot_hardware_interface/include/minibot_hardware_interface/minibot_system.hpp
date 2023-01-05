@@ -21,8 +21,6 @@
 #include <fcntl.h>
 #include <libserial/SerialPort.h>
 
-using CallbackReturn = rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn;
-
 namespace minibot_hardware
 {
 class MinibotSystemHardware : public hardware_interface::SystemInterface
@@ -31,7 +29,7 @@ class MinibotSystemHardware : public hardware_interface::SystemInterface
         RCLCPP_SHARED_PTR_DEFINITIONS(MinibotSystemHardware)
 
         HARDWARE_INTERFACE_PUBLIC
-        CallbackReturn on_init(const hardware_interface::HardwareInfo & info) override;
+        hardware_interface::CallbackReturn on_init(const hardware_interface::HardwareInfo & info) override;
 
         HARDWARE_INTERFACE_PUBLIC
         std::vector<hardware_interface::StateInterface> export_state_interfaces() override;
@@ -40,16 +38,16 @@ class MinibotSystemHardware : public hardware_interface::SystemInterface
         std::vector<hardware_interface::CommandInterface> export_command_interfaces() override;
 
         HARDWARE_INTERFACE_PUBLIC
-        CallbackReturn on_activate(const rclcpp_lifecycle::State & previous_state) override;
+        hardware_interface::CallbackReturn on_activate(const rclcpp_lifecycle::State & previous_state) override;
 
         HARDWARE_INTERFACE_PUBLIC
-        CallbackReturn on_deactivate(const rclcpp_lifecycle::State & previous_state) override;
+        hardware_interface::CallbackReturn on_deactivate(const rclcpp_lifecycle::State & previous_state) override;
 
         HARDWARE_INTERFACE_PUBLIC
-        hardware_interface::return_type read() override;
+        hardware_interface::return_type read(const rclcpp::Time & time, const rclcpp::Duration & period) override;
 
         HARDWARE_INTERFACE_PUBLIC
-        hardware_interface::return_type write() override;
+        hardware_interface::return_type write(const rclcpp::Time & time, const rclcpp::Duration & period) override;
 
     private:
         bool enable_motors(bool enable);
