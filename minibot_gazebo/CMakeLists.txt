@@ -7,8 +7,8 @@ endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
-find_package(gazebo_ros REQUIRED)
-find_package(gazebo_ros2_control REQUIRED)
+#find_package(gazebo_ros REQUIRED)
+#find_package(gazebo_ros2_control REQUIRED)
 find_package(minibot_description REQUIRED)
 
 install(
