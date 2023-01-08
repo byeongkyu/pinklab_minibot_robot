@@ -1,0 +1,4 @@
+# Arduino Mega
+KERNEL=="ttyACM[0-9]*", MODE="0666", ATTRS{idVendor}=="2341", ATTRS{idProduct}=="0042", SYMLINK+="ttyArduino"
+# Hokuyo Lidar
+KERNEL=="ttyACM[0-9]*", MODE="0666", ATTRS{idVendor}=="15d1", ATTRS{idProduct}=="0000", SYMLINK+="ttyHokuyo"

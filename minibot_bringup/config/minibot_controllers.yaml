@@ -1,6 +1,7 @@
 controller_manager:
   ros__parameters:
     update_rate: 25
+    use_sim_time: false
 
     joint_state_broadcaster:
       type: joint_state_broadcaster/JointStateBroadcaster
@@ -14,7 +15,7 @@ base_controller:
     right_wheel_names: ["r_wheel_joint"]
     write_op_modes: ["motor_controller"]
 
-    wheel_separation: 0.175 #TBD
+    wheel_separation: 0.162 #TBD
     wheels_per_side: 1
     wheel_radius: 0.034 #TBD
 

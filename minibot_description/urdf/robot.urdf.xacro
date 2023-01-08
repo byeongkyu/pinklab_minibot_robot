@@ -8,13 +8,15 @@
     <xacro:arg name="prefix" default=""/>
     <xacro:arg name="is_sim" default="false"/>
     <xacro:arg name="lidar_model" default="ydlidar_x2"/> <!-- ydlidar_x2, hokuyo -->
+    <xacro:arg name="port_name" default="/dev/ttyACM0"/>
+    <xacro:arg name="baudrate" default="912600"/>
 
     <xacro:property name="lidar_model" value="$(arg lidar_model)"/>
     <xacro:property name="prefix" value="$(arg prefix)"/>
 
     <!-- insert robot base -->
     <xacro:insert_robot prefix="$(arg prefix)"/>
-    <xacro:insert_ros2_control prefix="$(arg prefix)" is_sim="$(arg is_sim)"/>
+    <xacro:insert_ros2_control prefix="$(arg prefix)" is_sim="$(arg is_sim)" port_name="$(arg port_name)" baudrate="$(arg baudrate)"/>
     <xacro:if value="$(arg is_sim)">
         <xacro:insert_gazebo prefix="$(arg prefix)" lidar_model="$(arg lidar_model)"/>
     </xacro:if>
@@ -25,13 +27,13 @@
             <visual>
                 <origin xyz="0 0 0" rpy="0 0 0"/>
                 <geometry>
-                    <mesh filename="file://$(find minibot_description)/meshes/visual/URG-04LX-UG01.dae" scale="1 1 1"/>
+                    <mesh filename="package://minibot_description/meshes/visual/URG-04LX-UG01.dae" scale="1 1 1"/>
                 </geometry>
             </visual>
             <collision>
                 <origin xyz="0 0 0" rpy="0 0 0"/>
                 <geometry>
-                    <mesh filename="file://$(find minibot_description)/meshes/collision/URG-04LX-UG01.stl" scale="1 1 1"/>
+                    <mesh filename="package://minibot_description/meshes/collision/URG-04LX-UG01.stl" scale="1 1 1"/>
                 </geometry>
             </collision>
             <inertial>

@@ -11,13 +11,13 @@
             <visual>
                 <origin xyz="0 0 0" rpy="0 0 0"/>
                 <geometry>
-                    <mesh filename="file://$(find minibot_description)/meshes/visual/base_link.dae" scale="1 1 1"/>
+                    <mesh filename="package://minibot_description/meshes/visual/base_link.dae" scale="1 1 1"/>
                 </geometry>
             </visual>
             <collision>
                 <origin xyz="0 0 0" rpy="0 0 0"/>
                 <geometry>
-                    <mesh filename="file://$(find minibot_description)/meshes/collision/base_link.stl" scale="1 1 1"/>
+                    <mesh filename="package://minibot_description/meshes/collision/base_link.stl" scale="1 1 1"/>
                 </geometry>
             </collision>
             <inertial>
@@ -38,13 +38,13 @@
                 <visual>
                     <origin xyz="0 0 0" rpy="0 0 ${dir * pi/2}"/>
                     <geometry>
-                        <mesh filename="file://$(find minibot_description)/meshes/visual/wheel.dae" scale="1 1 1"/>
+                        <mesh filename="package://minibot_description/meshes/visual/wheel.dae" scale="1 1 1"/>
                     </geometry>
                 </visual>
                 <collision>
                     <origin xyz="0 0 0" rpy="0 0 ${dir * pi/2}"/>
                     <geometry>
-                        <mesh filename="file://$(find minibot_description)/meshes/collision/wheel.stl" scale="1 1 1"/>
+                        <mesh filename="package://minibot_description/meshes/collision/wheel.stl" scale="1 1 1"/>
                     </geometry>
                 </collision>
                 <inertial>
@@ -71,13 +71,13 @@
             <visual>
                 <origin xyz="0 0 0" rpy="0 0 0"/>
                 <geometry>
-                    <mesh filename="file://$(find minibot_description)/meshes/visual/front_camera.dae" scale="1 1 1"/>
+                    <mesh filename="package://minibot_description/meshes/visual/front_camera.dae" scale="1 1 1"/>
                 </geometry>
             </visual>
             <collision>
                 <origin xyz="0 0 0" rpy="0 0 0"/>
                 <geometry>
-                    <mesh filename="file://$(find minibot_description)/meshes/collision/front_camera.stl" scale="1 1 1"/>
+                    <mesh filename="package://minibot_description/meshes/collision/front_camera.stl" scale="1 1 1"/>
                 </geometry>
             </collision>
             <inertial>

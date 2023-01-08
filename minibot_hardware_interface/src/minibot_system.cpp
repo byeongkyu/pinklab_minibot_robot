@@ -183,10 +183,10 @@ namespace minibot_hardware
         request_controller_state(enabled, l_pos_enc, r_pos_enc);
 
         hw_velocities_[0] = 0.0;
-        hw_positions_[0] += (l_pos_enc - l_last_enc_) / 3550.0 / 1.0 * (2.0 * M_PI);
+        hw_positions_[0] += (l_pos_enc - l_last_enc_) / 3550.0 / 1.0 * (2.0 * M_PI) * -1.0;
 
         hw_velocities_[1] = 0.0;
-        hw_positions_[1] += (r_pos_enc - r_last_enc_) / 3550.0 / 1.0 * (2.0 * M_PI) * -1.0;
+        hw_positions_[1] += (r_pos_enc - r_last_enc_) / 3550.0 / 1.0 * (2.0 * M_PI);
 
         l_last_enc_ = l_pos_enc;
         r_last_enc_ = r_pos_enc;
@@ -209,8 +209,8 @@ namespace minibot_hardware
         // command * ENCODER_REV / (2.0 * PI) * GEAR_RATIO
         // cmd -> encoder/s
 
-        int16_t l_cmd = (int16_t)(hw_commands_[0] * 3550.0 / (2.0 * M_PI) * 1.0);
-        int16_t r_cmd = (int16_t)(hw_commands_[1] * 3550.0 / (2.0 * M_PI) * 1.0 * -1.0);
+        int16_t l_cmd = (int16_t)(hw_commands_[0] * 3550.0 / (2.0 * M_PI) * 1.0) * -1.0;
+        int16_t r_cmd = (int16_t)(hw_commands_[1] * 3550.0 / (2.0 * M_PI) * 1.0);
 
         send_cmd_to_controller(l_cmd, r_cmd);
 
