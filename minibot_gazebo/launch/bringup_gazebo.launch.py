@@ -3,14 +3,15 @@ from os import environ
 from os import pathsep
 
 from launch import LaunchDescription
-from launch.actions import IncludeLaunchDescription, DeclareLaunchArgument, ExecuteProcess, RegisterEventHandler
+from launch.actions import IncludeLaunchDescription, DeclareLaunchArgument, ExecuteProcess, RegisterEventHandler, SetEnvironmentVariable
 from launch.event_handlers import OnProcessExit
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch_ros.substitutions import FindPackageShare
 from launch_ros.actions import Node
-from launch.substitutions import PathJoinSubstitution, LaunchConfiguration
+from launch.substitutions import PathJoinSubstitution, LaunchConfiguration, EnvironmentVariable
 from ament_index_python.packages import get_package_share_directory
 
+from pathlib import Path
 
 def generate_launch_description():
     robot_name = DeclareLaunchArgument("robot_name", default_value="minibot")
@@ -19,14 +20,13 @@ def generate_launch_description():
     world_name = DeclareLaunchArgument("world_name", default_value="empty.world")
 
     environ['QT_AUTO_SCREEN_SCALE_FACTOR'] = '0'
-    environ['GAZEBO_MODEL_DATABASE_URI'] = ''
-
-    gazebo_model_paths = '/usr/share/gazebo-11/models'
-
-    package_path = get_package_share_directory('minibot_gazebo')
-    gazebo_model_paths += pathsep + package_path + "/models"
-
-    environ['GAZEBO_MODEL_PATH'] = gazebo_model_paths
+    gz_resource_path = SetEnvironmentVariable(name='GAZEBO_MODEL_PATH', value=[
+                                    EnvironmentVariable('GAZEBO_MODEL_PATH', default_value=''),
+                                    '/usr/share/gazebo-11/models/:',
+                                    str(Path(get_package_share_directory('minibot_description')).parent.resolve()),
+                                    ':',
+                                    str(Path(get_package_share_directory('minibot_gazebo')).parent.resolve()) + "/models",
+                        ])
 
     gz_server = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([
@@ -106,6 +106,7 @@ def generate_launch_description():
                 on_exit=[load_base_controller],
             )
         ),
+        gz_resource_path,
         robot_name,
         robot_prefix,
         lidar_model,
