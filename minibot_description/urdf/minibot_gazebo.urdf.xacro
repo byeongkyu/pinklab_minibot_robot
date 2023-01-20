@@ -25,8 +25,8 @@
         </gazebo>
 
         <gazebo reference="${prefix}base_link">
-            <mu1>0.01</mu1>
-            <mu2>0.01</mu2>
+            <mu1>0.0</mu1>
+            <mu2>0.0</mu2>
             <!-- <minDepth>0.001</minDepth> -->
         </gazebo>
 
