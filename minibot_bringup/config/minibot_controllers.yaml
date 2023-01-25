@@ -9,6 +9,9 @@ controller_manager:
     base_controller:
       type: diff_drive_controller/DiffDriveController
 
+    minibot_io_controller:
+      type: minibot_controllers/GPIOController
+
 base_controller:
   ros__parameters:
     left_wheel_names: ["l_wheel_joint"]

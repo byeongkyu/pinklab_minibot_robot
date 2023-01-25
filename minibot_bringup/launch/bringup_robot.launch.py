@@ -77,6 +77,12 @@ def generate_launch_description():
         output='screen'
     )
 
+    load_minibot_io_controller = ExecuteProcess(
+        cmd=['ros2', 'control', 'load_controller', '--set-state', 'active',
+                'minibot_io_controller'],
+        output='screen'
+    )
+
     urg_node = Node(
         package="urg_node",
         executable="urg_node_driver",
@@ -107,6 +113,12 @@ def generate_launch_description():
                 on_exit=[load_base_controller],
             )
         ),
+        RegisterEventHandler(
+            event_handler=OnProcessExit(
+                target_action=load_base_controller,
+                on_exit=[load_minibot_io_controller],
+            )
+        ),
         prefix,
         lidar_model,
         lidar_port_name,
@@ -115,5 +127,5 @@ def generate_launch_description():
         robot_baudrate,
         upload_robot,
         control_node,
-        urg_node,
+        # urg_node,
     ])

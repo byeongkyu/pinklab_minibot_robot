@@ -34,6 +34,16 @@
                 <state_interface name="position"/>
                 <state_interface name="velocity"/>
             </joint>
+
+            <gpio name="gpio">
+                <command_interface name="set_enable_motor"/>
+                <state_interface name="motor_enabled"/>
+
+                <command_interface name="set_l_lamp_command"/>
+                <command_interface name="set_r_lamp_command"/>
+                <state_interface name="l_lamp_state"/>
+                <state_interface name="r_lamp_state"/>
+            </gpio>
         </ros2_control>
     </xacro:macro>
 </robot>
