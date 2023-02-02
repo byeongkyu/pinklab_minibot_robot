@@ -2,12 +2,14 @@ from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, Shutdown
 from launch.actions import ExecuteProcess, IncludeLaunchDescription, RegisterEventHandler
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch_ros.actions import Node
+from launch_ros.actions import Node, LifecycleNode
 from launch.event_handlers import OnProcessExit, OnExecutionComplete, OnProcessStart
 from launch_ros.substitutions import FindPackageShare
 from ament_index_python.packages import get_package_share_directory
 from launch.substitutions import PathJoinSubstitution, Command, LaunchConfiguration
 from launch.conditions import LaunchConfigurationEquals
+
+import os
 
 def generate_launch_description():
     prefix = DeclareLaunchArgument("prefix", default_value="")
@@ -83,6 +85,20 @@ def generate_launch_description():
         output='screen'
     )
 
+    parameter_file = LaunchConfiguration('params_file')
+    ydlidar_params_declare = DeclareLaunchArgument('params_file',
+                                           default_value=os.path.join(
+                                               get_package_share_directory('minibot_bringup'), 'config', 'ydlidar.yaml'),
+                                           description='FPath to the ROS2 parameters file to use.')
+    ydlidar_driver_node = LifecycleNode(package='ydlidar_ros2_driver',
+                                executable='ydlidar_ros2_driver_node',
+                                name='ydlidar_ros2_driver_node',
+                                output='screen',
+                                emulate_tty=True,
+                                parameters=[parameter_file],
+                                namespace='/',
+                                )
+
     return LaunchDescription([
         RegisterEventHandler(
             event_handler=OnProcessStart(
@@ -110,4 +126,6 @@ def generate_launch_description():
         robot_baudrate,
         upload_robot,
         control_node,
+        ydlidar_params_declare,
+        ydlidar_driver_node,
     ])
