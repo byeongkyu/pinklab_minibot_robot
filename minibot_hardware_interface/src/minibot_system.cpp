@@ -120,6 +120,10 @@ namespace minibot_hardware
                 hardware_interface::StateInterface(info_.joints[i].name, hardware_interface::HW_IF_VELOCITY, &hw_velocities_[i]));
         }
 
+        state_interfaces.emplace_back(hardware_interface::StateInterface("gpio", "motor_enabled", &enable_motor_state_));
+        state_interfaces.emplace_back(hardware_interface::StateInterface("gpio", "l_lamp_state", &l_lamp_state_));
+        state_interfaces.emplace_back(hardware_interface::StateInterface("gpio", "r_lamp_state", &r_lamp_state_));
+
         return state_interfaces;
     }
 
@@ -133,6 +137,10 @@ namespace minibot_hardware
             command_interfaces.emplace_back(
                 hardware_interface::CommandInterface(info_.joints[i].name, hardware_interface::HW_IF_VELOCITY, &hw_commands_[i]));
         }
+
+        command_interfaces.emplace_back(hardware_interface::CommandInterface("gpio", "set_enable_motor", &enable_motor_cmd_));
+        command_interfaces.emplace_back(hardware_interface::CommandInterface("gpio", "set_l_lamp_command", &l_lamp_cmd_));
+        command_interfaces.emplace_back(hardware_interface::CommandInterface("gpio", "set_r_lamp_command", &r_lamp_cmd_));
 
         return command_interfaces;
     }
@@ -180,7 +188,12 @@ namespace minibot_hardware
 
         uint8_t enabled = 0;
         int32_t l_pos_enc = 0, r_pos_enc = 0;
-        request_controller_state(enabled, l_pos_enc, r_pos_enc);
+        uint8_t l_lamp_value = 0, r_lamp_value = 0;
+        request_controller_state(enabled, l_pos_enc, r_pos_enc, l_lamp_value, r_lamp_value);
+
+        enable_motor_state_ = enabled ? 1.0 : 0.0;
+        l_lamp_state_ = (double) l_lamp_value;
+        r_lamp_state_ = (double) r_lamp_value;
 
         hw_velocities_[0] = 0.0;
         hw_positions_[0] += (l_pos_enc - l_last_enc_) / 44.0 / 56.0 * (2.0 * M_PI) * -1.0;
@@ -212,7 +225,17 @@ namespace minibot_hardware
         int16_t l_cmd = (int16_t)(hw_commands_[0] * 44.0 / (2.0 * M_PI) * 56.0) * -1.0;
         int16_t r_cmd = (int16_t)(hw_commands_[1] * 44.0 / (2.0 * M_PI) * 56.0);
 
-        send_cmd_to_controller(l_cmd, r_cmd);
+        uint8_t enable_motor = (uint8_t)enable_motor_cmd_;
+        uint8_t l_lamp_cmd = (uint8_t)l_lamp_cmd_;
+        uint8_t r_lamp_cmd = (uint8_t)r_lamp_cmd_;
+
+        if(enable_motor_state_ == 0)
+        {
+            l_cmd = 0;
+            r_cmd = 0;
+        }
+
+        send_cmd_to_controller(enable_motor, l_cmd, r_cmd, l_lamp_cmd, r_lamp_cmd);
 
         // clock_gettime(CLOCK_MONOTONIC, &end);
         // auto diff = (end.tv_sec - start.tv_sec) * 1000000000LL + (end.tv_nsec - start.tv_nsec);
@@ -250,27 +273,30 @@ namespace minibot_hardware
         return true;
     }
 
-    void MinibotSystemHardware::send_cmd_to_controller(int16_t l_vel, int16_t r_vel)
+    void MinibotSystemHardware::send_cmd_to_controller(uint8_t enable, int16_t l_vel, int16_t r_vel, uint8_t l_lamp, uint8_t r_lamp)
     {
-        std::vector<uint8_t> send_buf {0xfa, 0xfe, 0x2, 0x0, 0x0, 0x0, 0x0, 0x0, 0x6, 0x0, 0xfa, 0xfd};
+        std::vector<uint8_t> send_buf {0xfa, 0xfe, 0x2, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x9, 0x0, 0xfa, 0xfd};
 
-        send_buf[3] = (uint8_t)(l_vel >> 8);
-        send_buf[4] = (uint8_t)(l_vel);
-        send_buf[5] = (uint8_t)(r_vel >> 8);
-        send_buf[6] = (uint8_t)(r_vel);
+        send_buf[3] = enable;
+        send_buf[4] = (uint8_t)(l_vel >> 8);
+        send_buf[5] = (uint8_t)(l_vel);
+        send_buf[6] = (uint8_t)(r_vel >> 8);
+        send_buf[7] = (uint8_t)(r_vel);
+        send_buf[8] = (uint8_t)(l_lamp);
+        send_buf[9] = (uint8_t)(r_lamp);
 
         uint16_t sum = 0;
-        for(int i = 0; i < 7; i++)
+        for(int i = 0; i < 9; i++)
         {
             sum += send_buf[2 + i];
         }
-        send_buf[9] = (uint8_t)sum;
+        send_buf[12] = (uint8_t)sum;
 
         ser_.Write(send_buf);
         ser_.DrainWriteBuffer();
     }
 
-    void MinibotSystemHardware::request_controller_state(uint8_t &enabled, int32_t &l_pos_enc, int32_t &r_pos_enc)
+    void MinibotSystemHardware::request_controller_state(uint8_t &enabled, int32_t &l_pos_enc, int32_t &r_pos_enc, uint8_t &l_lamp_val, uint8_t &r_lamp_val)
     {
         std::vector<uint8_t> send_buf {0xfa, 0xfe, 0x3, 0x1, 0x4, 0xfa, 0xfd};
 
@@ -296,6 +322,8 @@ namespace minibot_hardware
         enabled = recv_buf[3];
         l_pos_enc = (int32_t)((recv_buf[4] << 24) + (recv_buf[5] << 16) + (recv_buf[6] << 8) + (recv_buf[7]));
         r_pos_enc = (int32_t)((recv_buf[8] << 24) + (recv_buf[9] << 16) + (recv_buf[10] << 8) + (recv_buf[11]));
+        l_lamp_val = recv_buf[12];
+        r_lamp_val = recv_buf[13];
     }
 
 } // namespace minibot_hardware

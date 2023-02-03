@@ -77,6 +77,12 @@ def generate_launch_description():
         output='screen'
     )
 
+    load_minibot_io_controller = ExecuteProcess(
+        cmd=['ros2', 'control', 'load_controller', '--set-state', 'active',
+                'minibot_io_controller'],
+        output='screen'
+    )
+
     return LaunchDescription([
         RegisterEventHandler(
             event_handler=OnProcessStart(
@@ -88,6 +94,12 @@ def generate_launch_description():
             event_handler=OnProcessExit(
                 target_action=load_joint_state_broadcaster,
                 on_exit=[load_base_controller],
+            )
+        ),
+        RegisterEventHandler(
+            event_handler=OnProcessExit(
+                target_action=load_base_controller,
+                on_exit=[load_minibot_io_controller],
             )
         ),
         prefix,
