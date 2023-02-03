@@ -25,7 +25,7 @@ def generate_launch_description():
                                     '/usr/share/gazebo-11/models/:',
                                     str(Path(get_package_share_directory('minibot_description')).parent.resolve()),
                                     ':',
-                                    str(Path(get_package_share_directory('minibot_gazebo')).parent.resolve()) + "/models",
+                                    str(Path(get_package_share_directory('minibot_gazebo')).parent.resolve()) + "/minibot_gazebo/models",
                         ])
 
     gz_server = IncludeLaunchDescription(

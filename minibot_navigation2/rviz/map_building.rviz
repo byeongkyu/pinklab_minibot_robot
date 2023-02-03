@@ -8,7 +8,7 @@ Panels:
         - /Status1
         - /Odometry1/Shape1
       Splitter Ratio: 0.5
-    Tree Height: 1420
+    Tree Height: 877
   - Class: rviz_common/Selection
     Name: Selection
   - Class: rviz_common/Tool Properties
@@ -27,6 +27,8 @@ Panels:
     Name: Time
     SyncMode: 0
     SyncSource: LaserScan
+  - Class: slam_toolbox::SlamToolboxPlugin
+    Name: SlamToolboxPlugin
 Visualization Manager:
   Class: ""
   Displays:
@@ -57,59 +59,21 @@ Visualization Manager:
           Value: true
         base_link:
           Value: true
-        camera_bottom_screw_frame:
-          Value: true
-        camera_depth_frame:
-          Value: true
         camera_link:
           Value: true
-        f_l_caster_mount:
-          Value: true
-        f_l_caster_rotate:
-          Value: true
-        f_l_caster_wheel:
-          Value: true
-        f_r_caster_mount:
-          Value: true
-        f_r_caster_rotate:
-          Value: true
-        f_r_caster_wheel:
-          Value: true
-        imu_link:
-          Value: true
-        imu_sensor:
-          Value: true
-        l_sonar_sensor:
+        front_camera_mount:
           Value: true
         l_wheel:
           Value: true
-        l_wheel_mount:
-          Value: true
         laser_link:
-          Value: true
-        lidar_mount:
           Value: true
         map:
           Value: true
         odom:
           Value: true
-        r_l_caster_mount:
-          Value: true
-        r_l_caster_rotate:
-          Value: true
-        r_l_caster_wheel:
-          Value: true
-        r_r_caster_mount:
-          Value: true
-        r_r_caster_rotate:
-          Value: true
-        r_r_caster_wheel:
-          Value: true
-        r_sonar_sensor:
-          Value: true
         r_wheel:
           Value: true
-        r_wheel_mount:
+        ydlidar_lidar_mount:
           Value: true
       Marker Scale: 0.30000001192092896
       Name: TF
@@ -121,41 +85,15 @@ Visualization Manager:
           odom:
             base_footprint:
               base_link:
-                camera_bottom_screw_frame:
+                front_camera_mount:
                   camera_link:
-                    camera_depth_frame:
-                      {}
-                f_l_caster_mount:
-                  f_l_caster_rotate:
-                    f_l_caster_wheel:
-                      {}
-                f_r_caster_mount:
-                  f_r_caster_rotate:
-                    f_r_caster_wheel:
-                      {}
-                imu_sensor:
-                  imu_link:
                     {}
-                l_sonar_sensor:
+                l_wheel:
                   {}
-                l_wheel_mount:
-                  l_wheel:
-                    {}
-                lidar_mount:
+                r_wheel:
+                  {}
+                ydlidar_lidar_mount:
                   laser_link:
-                    {}
-                r_l_caster_mount:
-                  r_l_caster_rotate:
-                    r_l_caster_wheel:
-                      {}
-                r_r_caster_mount:
-                  r_r_caster_rotate:
-                    r_r_caster_wheel:
-                      {}
-                r_sonar_sensor:
-                  {}
-                r_wheel_mount:
-                  r_wheel:
                     {}
       Update Interval: 0
       Value: true
@@ -186,59 +124,11 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
-        camera_bottom_screw_frame:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        camera_depth_frame:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
         camera_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-          Value: true
-        f_l_caster_mount:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        f_l_caster_rotate:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        f_l_caster_wheel:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        f_r_caster_mount:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        f_r_caster_rotate:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        f_r_caster_wheel:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        imu_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        imu_sensor:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        l_sonar_sensor:
+        front_camera_mount:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -248,61 +138,16 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
-        l_wheel_mount:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
         laser_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        lidar_mount:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        r_l_caster_mount:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        r_l_caster_rotate:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        r_l_caster_wheel:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        r_r_caster_mount:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        r_r_caster_rotate:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        r_r_caster_wheel:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        r_sonar_sensor:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
         r_wheel:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        r_wheel_mount:
+        ydlidar_lidar_mount:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -476,7 +321,7 @@ Visualization Manager:
   Value: true
   Views:
     Current:
-      Angle: -1.5707000494003296
+      Angle: -1.560694932937622
       Class: rviz_default_plugins/TopDownOrtho
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
@@ -486,20 +331,22 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Scale: 70.50780487060547
+      Scale: 241.73313903808594
       Target Frame: <Fixed Frame>
       Value: TopDownOrtho (rviz_default_plugins)
-      X: 8.433780670166016
-      Y: 2.4270620346069336
+      X: 2.299011468887329
+      Y: -1.7265042066574097
     Saved: ~
 Window Geometry:
   Displays:
-    collapsed: true
-  Height: 2272
-  Hide Left Dock: true
+    collapsed: false
+  Height: 2032
+  Hide Left Dock: false
   Hide Right Dock: true
-  QMainWindow State: 000000ff00000000fd0000000400000000000002f100000682fc0200000008fb0000001200530065006c0065006300740069006f006e00000001e10000009b000000af00fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c006100790073000000006d000006820000018000fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261000000010000015500000682fc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a00560069006500770073000000006d000006820000012f00fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e1000001970000000300000e8c00000058fc0100000002fb0000000800540069006d0065010000000000000e8c0000046400fffffffb0000000800540069006d0065010000000000000450000000000000000000000e8c000007e200000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  QMainWindow State: 000000ff00000000fd00000004000000000000032200000700fc0200000009fb0000001200530065006c0065006300740069006f006e00000001e10000009b000000a800fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c0061007900730100000066000004550000017200fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261fb000000220053006c0061006d0054006f006f006c0062006f00780050006c007500670069006e01000004c70000029f0000028000ffffff000000010000015500000682fc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a00560069006500770073000000006d000006820000011a00fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e1000001970000000300000e7600000058fc0100000002fb0000000800540069006d0065010000000000000e76000003ea00fffffffb0000000800540069006d0065010000000000000450000000000000000000000b480000070000000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   Selection:
+    collapsed: false
+  SlamToolboxPlugin:
     collapsed: false
   Time:
     collapsed: false
@@ -507,6 +354,6 @@ Window Geometry:
     collapsed: false
   Views:
     collapsed: true
-  Width: 3724
-  X: 116
+  Width: 3702
+  X: 138
   Y: 54

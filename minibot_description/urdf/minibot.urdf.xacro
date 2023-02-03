@@ -23,7 +23,8 @@
             <inertial>
                 <origin xyz="0 0 0.028" rpy="0 0 0"/>
                 <mass value="2.0"/>
-                <inertia ixx="0.000213" ixy="0" ixz="0" iyy="0.007034" iyz="0" izz="0.008104"/>
+                <!-- <inertia ixx="0.000213" ixy="0" ixz="0" iyy="0.007034" iyz="0" izz="0.008104"/> -->
+                <inertia ixx="0.01" ixy="0" ixz="0" iyy="0.01" iyz="0" izz="0.01"/>
             </inertial>
         </link>
 
@@ -60,7 +61,7 @@
                 <parent link="${parent}"/>
                 <child link="${prefix}${prefix_dir}_wheel"/>
                 <axis xyz="0 1 0"/>
-                <origin xyz="0 ${dir * wheel_speration/2} 0" rpy="0 0 0"/>
+                <origin xyz="0 ${dir * wheel_speration/2} -0.0001" rpy="0 0 0"/>
             </joint>
         </xacro:macro>
 

@@ -98,7 +98,7 @@ namespace minibot_hardware
             exit(-1);
         }
 
-        ser_.SetBaudRate(LibSerial::BaudRate::BAUD_921600);
+        ser_.SetBaudRate(LibSerial::BaudRate::BAUD_500000);
         ser_.FlushIOBuffers();
         rclcpp::sleep_for(std::chrono::milliseconds(1000));
 
@@ -196,10 +196,10 @@ namespace minibot_hardware
         r_lamp_state_ = (double) r_lamp_value;
 
         hw_velocities_[0] = 0.0;
-        hw_positions_[0] += (l_pos_enc - l_last_enc_) / 3550.0 / 1.0 * (2.0 * M_PI) * -1.0;
+        hw_positions_[0] += (l_pos_enc - l_last_enc_) / 44.0 / 56.0 * (2.0 * M_PI) * -1.0;
 
         hw_velocities_[1] = 0.0;
-        hw_positions_[1] += (r_pos_enc - r_last_enc_) / 3550.0 / 1.0 * (2.0 * M_PI);
+        hw_positions_[1] += (r_pos_enc - r_last_enc_) / 44.0 / 56.0 * (2.0 * M_PI);
 
         l_last_enc_ = l_pos_enc;
         r_last_enc_ = r_pos_enc;
@@ -222,8 +222,8 @@ namespace minibot_hardware
         // command * ENCODER_REV / (2.0 * PI) * GEAR_RATIO
         // cmd -> encoder/s
 
-        int16_t l_cmd = (int16_t)(hw_commands_[0] * 3550.0 / (2.0 * M_PI) * 1.0) * -1.0;
-        int16_t r_cmd = (int16_t)(hw_commands_[1] * 3550.0 / (2.0 * M_PI) * 1.0);
+        int16_t l_cmd = (int16_t)(hw_commands_[0] * 44.0 / (2.0 * M_PI) * 56.0) * -1.0;
+        int16_t r_cmd = (int16_t)(hw_commands_[1] * 44.0 / (2.0 * M_PI) * 56.0);
 
         uint8_t enable_motor = (uint8_t)enable_motor_cmd_;
         uint8_t l_lamp_cmd = (uint8_t)l_lamp_cmd_;
@@ -258,7 +258,7 @@ namespace minibot_hardware
         std::vector<uint8_t> recv_buf(9, 0);
         try
         {
-            ser_.Read(recv_buf, 9, 100);
+            ser_.Read(recv_buf, 9, 500);
             if(recv_buf[2] != 0x91 || recv_buf[3] != 1)
             {
                 RCLCPP_ERROR(rclcpp::get_logger("MinibotSystemHardware"), "Failed to enable motors... check the boards...");
@@ -306,7 +306,7 @@ namespace minibot_hardware
         std::vector<uint8_t> recv_buf(16, 0);
         try
         {
-            ser_.Read(recv_buf, 16, 100);
+            ser_.Read(recv_buf, 18, 100);
             if(recv_buf[2] != 0x93)
             {
                 RCLCPP_ERROR(rclcpp::get_logger("MinibotSystemHardware"), "Failed to enable motors... check the boards...");

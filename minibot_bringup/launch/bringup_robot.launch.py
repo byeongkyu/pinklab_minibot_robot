@@ -12,10 +12,10 @@ from launch.conditions import LaunchConfigurationEquals
 def generate_launch_description():
     prefix = DeclareLaunchArgument("prefix", default_value="")
     lidar_model = DeclareLaunchArgument("lidar_model", default_value="hokuyo")
-    lidar_port_name = DeclareLaunchArgument("lidar_port_name", default_value="/dev/ttyHokuyo")
+    lidar_port_name = DeclareLaunchArgument("lidar_port_name", default_value="/dev/ttyLidar")
     lidar_baudrate = DeclareLaunchArgument("lidar_baudrate", default_value="57600")
     robot_port_name = DeclareLaunchArgument("robot_port_name", default_value="/dev/ttyArduino")
-    robot_baudrate = DeclareLaunchArgument("robot_baudrate", default_value="921600")
+    robot_baudrate = DeclareLaunchArgument("robot_baudrate", default_value="500000")
 
     robot_description_content = Command([
         'xacro ',
@@ -83,23 +83,6 @@ def generate_launch_description():
         output='screen'
     )
 
-    urg_node = Node(
-        package="urg_node",
-        executable="urg_node_driver",
-        parameters=[
-            {"serial_port": LaunchConfiguration("lidar_port_name")},
-            {"laser_frame_id": "laser_link"},
-            {"calibrate_time": False},
-            {"publish_intensity": True},
-            {"default_user_latency": -0.15},
-        ],
-        output={
-            "stdout": "screen",
-            "stderr": "screen",
-        },
-        condition=LaunchConfigurationEquals("lidar_model", "hokuyo"),
-    )
-
     return LaunchDescription([
         RegisterEventHandler(
             event_handler=OnProcessStart(
@@ -127,5 +110,4 @@ def generate_launch_description():
         robot_baudrate,
         upload_robot,
         control_node,
-        # urg_node,
     ])
