@@ -30,6 +30,7 @@ namespace minibot_controllers
         config.names.emplace_back("gpio/motor_enabled");
         config.names.emplace_back("gpio/l_lamp_state");
         config.names.emplace_back("gpio/r_lamp_state");
+        config.names.emplace_back("gpio/range_sensor_state");
 
         RCLCPP_INFO(get_node()->get_logger(), "state_interface_configuration...");
         return config;
@@ -40,6 +41,7 @@ namespace minibot_controllers
         enable_motor_state_ = static_cast<bool>(state_interfaces_[StateInterfaces::ENABLE_MOTOR_STATE].get_value());
         left_lamp_state_ = static_cast<uint8_t>(state_interfaces_[StateInterfaces::LEFT_LAMP_STATE].get_value());
         right_lamp_state_ = static_cast<uint8_t>(state_interfaces_[StateInterfaces::RIGHT_LAMP_STATE].get_value());
+        range_sensor_state_ = static_cast<uint16_t>(state_interfaces_[StateInterfaces::RANGE_SENSOR_STATE].get_value());
 
         auto state_msg = minibot_interfaces::msg::RobotState();
 
@@ -48,6 +50,18 @@ namespace minibot_controllers
         state_msg.right_lamp = right_lamp_state_;
 
         pub_robot_state_->publish(state_msg);
+
+        auto range_msg = sensor_msgs::msg::Range();
+
+        range_msg.header.stamp = get_node()->now();
+        range_msg.radiation_type = 0; // ULRTRASOUND
+        range_msg.field_of_view = 0.1745; // 10deg
+        range_msg.min_range = 0.02;
+        range_msg.max_range = 2.0;
+        range_msg.range = range_sensor_state_ / 1000.0;
+
+        pub_range_sensor_state_->publish(range_msg);
+
         return controller_interface::return_type::OK;
     }
 
@@ -66,6 +80,7 @@ namespace minibot_controllers
                 "~/enable_motor", 10, std::bind(&GPIOController::callback_enable_motor_command, this, std::placeholders::_1));
             sub_lamp_cmd_ = get_node()->create_subscription<minibot_interfaces::msg::LampCommand>(
                 "~/set_lamp", 10, std::bind(&GPIOController::callback_lamp_command, this, std::placeholders::_1));
+            pub_range_sensor_state_ = get_node()->create_publisher<sensor_msgs::msg::Range>("~/range", rclcpp::SystemDefaultsQoS());
         }
         catch (...)
         {
@@ -83,6 +98,7 @@ namespace minibot_controllers
             pub_robot_state_.reset();
             sub_enable_motor_.reset();
             sub_lamp_cmd_.reset();
+            pub_range_sensor_state_.reset();
         }
         catch (...)
         {

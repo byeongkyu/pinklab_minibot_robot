@@ -52,7 +52,7 @@ class MinibotSystemHardware : public hardware_interface::SystemInterface
     private:
         bool enable_motors(bool enable);
         void send_cmd_to_controller(uint8_t enable, int16_t l_vel, int16_t r_vel, uint8_t l_lamp, uint8_t r_lamp);
-        void request_controller_state(uint8_t &enabled, int32_t &l_vel_enc, int32_t &r_vel_enc, uint8_t &l_lamp_val, uint8_t &r_lamp_val);
+        void request_controller_state(uint8_t &enabled, int32_t &l_vel_enc, int32_t &r_vel_enc, uint8_t &l_lamp_val, uint8_t &r_lamp_val, uint16_t &range_sensor_val);
 
     private:
         std::vector<double> hw_commands_;
@@ -70,6 +70,7 @@ class MinibotSystemHardware : public hardware_interface::SystemInterface
         double r_lamp_cmd_;
         double l_lamp_state_;
         double r_lamp_state_;
+        double range_sensor_state_;
 };
 
 } // namespace minibot_hardware

@@ -43,6 +43,7 @@
                 <command_interface name="set_r_lamp_command"/>
                 <state_interface name="l_lamp_state"/>
                 <state_interface name="r_lamp_state"/>
+                <state_interface name="range_sensor_state"/>
             </gpio>
         </ros2_control>
     </xacro:macro>

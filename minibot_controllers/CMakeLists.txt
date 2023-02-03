@@ -27,6 +27,7 @@ set(THIS_PACKAGE_INCLUDE_DEPENDS
   realtime_tools
   std_msgs
   std_srvs
+  sensor_msgs
 )
 
 include_directories(include)
