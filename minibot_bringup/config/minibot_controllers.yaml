@@ -18,7 +18,7 @@ base_controller:
     right_wheel_names: ["r_wheel_joint"]
     write_op_modes: ["motor_controller"]
 
-    wheel_separation: 0.180 #TBD
+    wheel_separation: 0.190 #TBD
     wheels_per_side: 1
     wheel_radius: 0.034 #TBD
 

@@ -24,13 +24,13 @@
         <visual>
             <origin xyz="0 0 0" rpy="0 0 0"/>
             <geometry>
-                <mesh filename="file://$(find minibot_description)/meshes/visual/ydlidar_x2_assy.dae" scale="1 1 1"/>
+                <mesh filename="package://minibot_description/meshes/visual/ydlidar_x2_assy.dae" scale="1 1 1"/>
             </geometry>
         </visual>
         <collision>
             <origin xyz="0 0 0" rpy="0 0 0"/>
             <geometry>
-                <mesh filename="file://$(find minibot_description)/meshes/collision/ydlidar_x2_assy.stl" scale="1 1 1"/>
+                <mesh filename="package://minibot_description/meshes/collision/ydlidar_x2_assy.stl" scale="1 1 1"/>
             </geometry>
         </collision>
         <inertial>
