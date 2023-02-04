@@ -16,7 +16,6 @@ from pathlib import Path
 def generate_launch_description():
     robot_name = DeclareLaunchArgument("robot_name", default_value="minibot")
     robot_prefix = DeclareLaunchArgument("robot_prefix", default_value="")
-    lidar_model = DeclareLaunchArgument("lidar_model", default_value="ydlidar_x2")
     world_name = DeclareLaunchArgument("world_name", default_value="empty.world")
 
     environ['QT_AUTO_SCREEN_SCALE_FACTOR'] = '0'
@@ -59,7 +58,6 @@ def generate_launch_description():
         launch_arguments = {
             'is_sim' : 'true',
             'prefix': LaunchConfiguration('robot_prefix'),
-            'lidar_model': LaunchConfiguration('lidar_model'),
         }.items()
     )
 
@@ -76,6 +74,7 @@ def generate_launch_description():
             '-y', '0.0',
             '-package_to_model'
         ],
+        prefix="bash -c 'sleep 2.0; $0 $@' ",
         parameters=[{
             "use_sim_time": True
         }],
@@ -109,7 +108,6 @@ def generate_launch_description():
         gz_resource_path,
         robot_name,
         robot_prefix,
-        lidar_model,
         world_name,
         gz_server,
         gz_client,

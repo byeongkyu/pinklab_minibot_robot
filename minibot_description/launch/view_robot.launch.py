@@ -11,8 +11,6 @@ from launch_ros.actions import Node
 def generate_launch_description():
     ld = LaunchDescription()
 
-    lidar_model = DeclareLaunchArgument("lidar_model", default_value="ydlidar_x2")
-
     environ['QT_AUTO_SCREEN_SCALE_FACTOR'] = '0'
     rviz_config_file = PathJoinSubstitution([
         FindPackageShare('minibot_description'),
@@ -44,7 +42,6 @@ def generate_launch_description():
                         'urdf',
                         'robot.urdf.xacro',
                     ]),
-                    ' lidar_model:=', LaunchConfiguration('lidar_model')
                 ]),
         }]
     )
@@ -56,7 +53,6 @@ def generate_launch_description():
         output='screen'
     )
 
-    ld.add_action(lidar_model)
     ld.add_action(rviz_node)
     ld.add_action(rsp_node)
     ld.add_action(jsp_gui_node)

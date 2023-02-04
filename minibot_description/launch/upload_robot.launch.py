@@ -13,7 +13,6 @@ def generate_launch_description():
 
     is_sim = DeclareLaunchArgument("is_sim", default_value="false")
     prefix = DeclareLaunchArgument("prefix", default_value="")
-    lidar_model = DeclareLaunchArgument("lidar_model", default_value="ydlidar_x2")
 
     rsp_node = Node(
         package='robot_state_publisher',
@@ -33,14 +32,12 @@ def generate_launch_description():
                     ]),
                     ' is_sim:=', LaunchConfiguration('is_sim'),
                     ' prefix:=', LaunchConfiguration('prefix'),
-                    ' lidar_model:=', LaunchConfiguration('lidar_model'),
                 ]),
         }]
     )
 
     ld.add_action(is_sim)
     ld.add_action(prefix)
-    ld.add_action(lidar_model)
     ld.add_action(rsp_node)
 
     return ld

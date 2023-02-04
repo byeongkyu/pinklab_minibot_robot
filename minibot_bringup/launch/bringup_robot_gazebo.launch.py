@@ -11,7 +11,6 @@ from launch.conditions import LaunchConfigurationEquals
 
 def generate_launch_description():
     prefix = DeclareLaunchArgument("prefix", default_value="")
-    lidar_model = DeclareLaunchArgument("lidar_model", default_value="ydlidar_x2")
     world_name = DeclareLaunchArgument("world_name", default_value="empty.world")
 
     gazebo_bringup = IncludeLaunchDescription(
@@ -21,14 +20,12 @@ def generate_launch_description():
         ),
         launch_arguments = {
             'robot_prefix': LaunchConfiguration('prefix'),
-            'lidar_model': LaunchConfiguration('lidar_model'),
             'world_name': LaunchConfiguration('world_name'),
         }.items()
     )
 
     return LaunchDescription([
         prefix,
-        lidar_model,
         world_name,
         gazebo_bringup
     ])

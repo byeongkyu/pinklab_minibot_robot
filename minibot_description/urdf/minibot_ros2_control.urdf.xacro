@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
-    <xacro:macro name="insert_ros2_control" params="prefix is_sim:=^|false port_name baudrate">
+    <xacro:macro name="insert_ros2_control" params="prefix is_sim:=^|false robot_port_name robot_baudrate">
         <ros2_control name="${prefix}minibot_system" type="system">
             <xacro:if value="$(arg is_sim)">
                 <hardware>
@@ -10,8 +10,8 @@
             <xacro:unless value="$(arg is_sim)">
                 <hardware>
                     <plugin>minibot_hardware/MinibotSystemHardware</plugin>
-                    <param name="port_name">$(arg port_name)</param>
-                    <param name="baudrate">$(arg baudrate)</param>
+                    <param name="port_name">$(arg robot_port_name)</param>
+                    <param name="baudrate">$(arg robot_baudrate)</param>
                 </hardware>
             </xacro:unless>
 

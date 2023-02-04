@@ -3,7 +3,7 @@
     <xacro:macro name="insert_robot" params="prefix">
 
         <xacro:property name="wheel_diameter" value="0.068"/>
-        <xacro:property name="wheel_speration" value="0.1736"/>
+        <xacro:property name="wheel_speration" value="0.180"/>
 
         <link name="${prefix}base_footprint"/>
 
@@ -21,7 +21,7 @@
                 </geometry>
             </collision>
             <inertial>
-                <origin xyz="0 0 0.028" rpy="0 0 0"/>
+                <origin xyz="-0.02 0 0.028" rpy="0 0 0"/>
                 <mass value="2.0"/>
                 <!-- <inertia ixx="0.000213" ixy="0" ixz="0" iyy="0.007034" iyz="0" izz="0.008104"/> -->
                 <inertia ixx="0.01" ixy="0" ixz="0" iyy="0.01" iyz="0" izz="0.01"/>
@@ -61,7 +61,7 @@
                 <parent link="${parent}"/>
                 <child link="${prefix}${prefix_dir}_wheel"/>
                 <axis xyz="0 1 0"/>
-                <origin xyz="0 ${dir * wheel_speration/2} -0.0001" rpy="0 0 0"/>
+                <origin xyz="0 ${dir * wheel_speration/2} 0" rpy="0 0 0"/>
             </joint>
         </xacro:macro>
 
@@ -91,7 +91,7 @@
         <joint name="${prefix}front_camera_mount_fixed_joint" type="fixed">
             <parent link="${prefix}base_link"/>
             <child link="${prefix}front_camera_mount"/>
-            <origin xyz="0.0864 0 0.0355" rpy="0 0 0"/>
+            <origin xyz="0.045 0 0.085" rpy="0 0 0"/>
         </joint>
 
         <link name="${prefix}camera_link"/>
@@ -100,6 +100,40 @@
             <parent link="${prefix}front_camera_mount"/>
             <child link="${prefix}camera_link"/>
             <origin xyz="0.0111 0 0.0193" rpy="0 ${pi/2} 0"/>
+        </joint>
+
+        <link name="${prefix}ul_sensor_mount">
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://minibot_description/meshes/visual/ul_sensor.dae" scale="1 1 1"/>
+                </geometry>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://minibot_description/meshes/collision/ul_sensor.stl" scale="1 1 1"/>
+                </geometry>
+            </collision>
+            <inertial>
+                <origin xyz="0.005 0 0.013" rpy="0 0 0"/>
+                <mass value="0.050000"/>
+                <inertia ixx="0.000005" ixy="0" ixz="-0.000001" iyy="0.000004" iyz="0" izz="0.000003"/>
+            </inertial>
+        </link>
+
+        <joint name="${prefix}ul_sensor_mount_fixed_joint" type="fixed">
+            <parent link="${prefix}base_link"/>
+            <child link="${prefix}ul_sensor_mount"/>
+            <origin xyz="0.03 0 0.01" rpy="0 0 0"/>
+        </joint>
+
+        <link name="${prefix}ul_sensor_link"/>
+
+        <joint name="${prefix}ul_sensor_link_fixed_joint" type="fixed">
+            <parent link="${prefix}ul_sensor_mount"/>
+            <child link="${prefix}ul_sensor_link"/>
+            <origin xyz="0.02 0 0" rpy="0 0 0"/>
         </joint>
 
     </xacro:macro>
