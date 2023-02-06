@@ -4,7 +4,7 @@
 
 ### For Gazebo simulation
 ```shell
-$ ros2 launch minibot_bringup bringup_robot_gazebo.launch.py lidar_model:=ydlidar_x2 world_name:=simple_building.world
+$ ros2 launch minibot_bringup bringup_robot_gazebo.launch.py world_name:=simple_building.world
 ```
 ```shell
 $ ros2 launch minibot_navigation2 map_building.launch.py use_sim_time:=true
