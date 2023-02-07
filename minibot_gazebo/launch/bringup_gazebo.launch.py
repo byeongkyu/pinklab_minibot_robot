@@ -35,6 +35,7 @@ def generate_launch_description():
         launch_arguments={
             "verbose": "true",
             "physics": "ode",
+            "lockstep": "true",
             "world": PathJoinSubstitution([
                         FindPackageShare('minibot_gazebo'),
                         'worlds',

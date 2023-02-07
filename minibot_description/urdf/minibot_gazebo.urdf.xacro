@@ -31,7 +31,7 @@
         </gazebo>
 
         <gazebo reference="${prefix}laser_link">
-            <sensor name="laser" type="gpu_ray">
+            <sensor name="laser" type="ray">
                 <pose>0 0 0 0 0 0</pose>
                 <always_on>1</always_on>
                 <update_rate>15</update_rate>
